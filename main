@@ -1,0 +1,115 @@
+/*
+
+STM_32 Ballistic Computer
+
+
+ ST7789 240x240 IPS (without CS pin) connections (only 6 wires required):
+
+ #01 GND -> GND
+ #02 VCC -> VCC (3.3V only!)
+ #03 SCL -> PA5/SCK
+ #04 SDA -> PA7/MOSI
+ #05 RES -> PA1 or any digital
+ #06 DC  -> PA2 or any digital
+ #07 BLK -> NC
+*/
+
+#define TFT_DC    PA2
+#define TFT_RST   PA1
+
+#define SCR_WD   240
+#define SCR_HT   240
+#include <SPI.h>
+#include <Adafruit_GFX.h>
+#include <Arduino_ST7789_STM.h>
+Arduino_ST7789 tft = Arduino_ST7789(TFT_DC, TFT_RST);
+
+
+uint8_t z_mark_line_y_coord ;
+
+uint8_t tgt_mark_h , 
+        tgt_mark_v,
+        tgt_dist = 50;
+
+
+// ------------ horizontal zeroing line ------------  
+
+   void draw_h_mark_line (void)
+   {
+
+    tft.drawFastHLine(0, 20, 240, GREEN);  
+
+   }
+
+
+// ------------ target mark ---------------
+
+  void draw_tgt_mark (void)
+  {
+    
+  }
+
+
+
+// ------------ distance gauge ----------
+
+
+  void draw_distance_gauge (void) 
+  {
+tft.setTextSize(1);
+tft.setCursor (215, 0);
+tft.setTextColor(RED);
+tft.print ( tgt_dist );
+tft.print (" m");
+
+  }
+
+
+
+
+void setup(void) 
+{
+  tft.init(SCR_WD, SCR_HT);
+  tft.setRotation(2); //  "2" - normal | "10" - X mirror | "20" - Y mirror
+  tft.fillScreen(BLACK);
+  tft.setTextSize(2); 
+  //tft.setTextColor(CYAN);
+  //tft.println("RESULTS:"); 
+  draw_distance_gauge() ;
+ 
+  // ------- vertical center line ----------------------
+
+  
+  tft.drawFastVLine(120, 0, 240, BLUE);   // (x coord, y coord, lenght, color)
+  tft.drawFastVLine(121, 0, 240, RED);  
+
+
+  
+  
+
+}
+ 
+void loop(void) 
+{
+
+  // ------------ horizontal zeroing line ------------  
+
+ tft.drawFastHLine(0, 20, 240, GREEN);  
+
+
+  // ------------ target mark ---------------
+
+
+
+  // ------------ distance gauge ----------
+ 
+  
+  
+  
+  
+  //tft.drawLine(x1, y1, x2, y2, color);
+  //tft.drawLine(x1, y1, x2, y2, color);
+  
+  //tft.drawRect(cx-i2, cy-i2, i, i, color);
+
+}
